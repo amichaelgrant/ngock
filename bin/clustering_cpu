@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+var config  = require('./config.js');
+var cluster = require("cluster");
+var http = require("http");
+var numCPUs = require("os").cpus().length;
+
+var debug = require('debug')('ngsock');
+var app = require('../app');
+
+if (cluster.isMaster) {
+  for (var i = 0; i < numCPUs; i++) {
+    cluster.fork();
+    console.log('Just Forked worker : ' + i);
+  }
+
+  cluster.on("exit", function(worker, code, signal) {
+    cluster.fork();
+    console.log('Finishing off forked workers...');
+    console.dir( worker );
+  });
+} else {
+
+  //server code starts here//
+  console.log('process.argv[2] :' + process.argv[2]);
+  app.set('port', process.argv[2] || config.BASE_PORT || process.env.PORT || 5000);
+  var server = app.listen(app.get('port'), function() {
+    debug('Express server listening on port ' + server.address().port);
+    console.info('Express server listening on port : ' + server.address().port );
+  });
+  //adding socket.io to the server//
+  var io = require('socket.io')( server );
+  require('../sock/soc.io.js')(io);
+}

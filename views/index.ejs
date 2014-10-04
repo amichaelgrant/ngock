@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+      socket.emit('client', 'from client browser');
+
+      $(document).ready( function(){
+          socket.on('server', function(data){
+            console.log( data );
+            $('#chats').append('<li class="">SERVER: ' + data + '</li>');
+          });
+
+          $('#chat-button').click( function(e){
+            var content =  $('#chat').val();
+            content = content.trim();
+            if(content.length == '0')
+                return;
+            $('#chat').val('').focus();
+            socket.emit('client',  content);
+            $('#chats').append('<li class="">CLIENT: ' + content + '</li>');
+          });
+      });
+    </script>
+
+  </head>
+
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %> Chats:</p>
+
+    <div class="chat-box">
+        <textarea id="chat"></textarea>
+        <input id="chat-button" type="submit" value="Send"/>
+    </div>
+    <div class="display-box">
+        <ul id="chats">No chats found on server yet</ul>
+    </div>
+
+  </body>
+</html>
