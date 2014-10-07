@@ -8,9 +8,15 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
-      socket.emit('client', 'from client browser');
+      /*socket.emit('client', 'from client browser');*/
+      socket.on('server', function(data){
+          console.log( data );
+          socket.emit('client', data + '-Random client');
+      });
 
-      $(document).ready( function(){
+      socket.disconnect();
+      
+      /*$(document).ready( function(){
           socket.on('server', function(data){
             console.log( data );
             $('#chats').append('<li class="">SERVER: ' + data + '</li>');
@@ -25,7 +31,8 @@
             socket.emit('client',  content);
             $('#chats').append('<li class="">CLIENT: ' + content + '</li>');
           });
-      });
+      });*/
+
     </script>
 
   </head>

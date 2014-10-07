@@ -1,0 +1,121 @@
+var io = require('socket.io-client');
+var socketURL = 'http://localhost/';
+
+//var options ={
+//  //transports: ['websocket'],
+//  //'force new connection': true
+//};
+//
+//console.log('starting socket.test');
+//var client1 = io.connect(socketURL, options);
+//client1.on('connect', function(socket){
+//    console.log('client1 connected ...');
+//    client1.emit('client', 'This-is-from-the-test-client');
+//    console.log('client1 socket "client" event emitted');
+//    client1.on('server', function(response){
+//        console.log('client1 socket "server" event' + response);
+//    });
+//
+////    var client2 = io.connect(socketURL, options);
+////    client2.on('connect', function(socket2){
+////        socket2.emit('client', data);
+////        socket2.on('server', function(response){
+////            fn(data, response);
+////        });
+////    });
+//
+//});
+
+var socket1 = require('socket.io-client')('http://localhost');
+//console.dir( socket );
+//socket.emit('client', 'Hello client');
+//socket.on('server', function(data){
+//    console.log('Data from server : ' + data);
+//    socket.emit('server' , 'looping to server');
+//});
+//socket.on('disconnect', function(){
+//    console.log('client1 disconnecting...');
+//});
+
+//socket1.on('connect', function(soc){
+//
+//    socket1.emit('client', 'Hello client');
+//    socket1.on('server', function(data){
+//        console.log('Data from server : ' + data);
+//        socket.emit('client' , 'looping to server');
+//        var innerSock = require('socket.io-client')('http://localhost');
+//
+//    });
+//    socket1.on('disconnect', function(){
+//        console.log('client1 disconnecting...');
+//    });
+//
+//});
+
+//function tester (){
+//    var soc = require('socket.io-client')('http://localhost');
+//    soc.on('server', function(data){
+//        console.log('Message from server: ');
+//        soc.emit('client', 'Throw back: ' + data);
+//        //tester();
+//    });
+//    soc.emit('client', 'Message from tester client');
+//};
+//
+//var sockets = 1000;
+//for( i = 0; i < 1000; i++){
+//    console.log('testing .....' + i);
+//    //tester();
+//    setTimeout( tester, 1000);
+//}
+
+//var webdriver = require('selenium-webdriver');
+//
+//var driver = new webdriver.Builder().
+//    withCapabilities(webdriver.Capabilities.chrome()).
+//    build();
+//
+//driver.get('http://localhost/');
+//driver.findElement(webdriver.By.name('q')).sendKeys('webdriver');
+//driver.findElement(webdriver.By.name('btnG')).click();
+//driver.wait(function() {
+//  return driver.getTitle().then(function(title) {
+//    return title === 'webdriver - Google Search';
+//  });
+//}, 1000);
+
+//driver.quit();
+var assert = require('assert');
+var Browser = require('zombie');
+Browser.debug = true;
+Browser.runScripts = true;
+
+var browser1 = new Browser();
+browser1.visit("http://localhost/", function () {
+      //assert.ok(browser.success);
+      if (browser1.error )
+            console.dir("Errors reported:", browser1.errors);
+      console.log('Browser instance : %s, about reloading', 1);
+});
+
+var browser2 = new Browser();
+browser2.visit("http://localhost/", function () {
+      //assert.ok(browser.success);
+      if (browser2.error )
+            console.dir("Errors reported:", browser2.errors);
+      //do script run if all ok//
+      console.log('Browser instance : %s, about reloading', 2);
+
+});
+
+setInterval( function(){
+    browser1.reload(function(bw){
+        console.log('Instance %s reloaded!', 1);
+    });
+    //browser1.log( browser1.evaluate("socket"));
+
+    browser2.reload(function(bw){
+        console.log('Instance %s reloaded!', 2);
+    });
+
+} , 10000);

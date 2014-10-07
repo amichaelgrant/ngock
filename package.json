@@ -20,7 +20,10 @@
     "socket.io": "^1.1.0"
   },
   "devDependencies": {
+    "browserify": "^6.0.2",
     "mocha": "^1.21.4",
-    "socket.io-client": "^1.1.0"
+    "node-uuid": "^1.4.1",
+    "socket.io-client": "^1.1.0",
+    "zombie": "^2.0.4"
   }
 }
